@@ -1,0 +1,10 @@
+.container{
+    margin: 0 auto;
+    max-width: 1125px;
+}
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    min-height: calc(100vh - 200px - 82px);
+}
