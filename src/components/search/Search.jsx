@@ -3,64 +3,60 @@ import React, {useState} from "react";
 import style from './style.module.css'
 
 
-class SearchInput extends React.Component {
-    state = {
-        searchFilm: '',
-        type: 'all',
-    }
+const SearchInput = (props) => {
 
-
-    handleKey = (event) => {
+    const [searchFilm, setSearchFilm] = useState('')
+    const [type, setType] = useState('all')
+    const handleKey = (event) => {
         if (event.key === 'Enter') {
-            this.props.searchMovies(this.state.searchFilm, this.state.type)
+            props.searchMovies(searchFilm, type)
         }
     }
 
-    handleFilter = (e, {value}) => {
-        this.setState(() => ({type: value}), () => {
-            this.props.searchMovies(this.state.searchFilm, this.state.type)
-        })
+
+    const handleFilter = (e, {value}) => {
+        setType(() => (value))
+        props.searchMovies(searchFilm,  (value))
+
     }
 
 
-    render() {
-        return (
-            <>
-                <Input
-                    name='film'
-                    onChange={(e) => this.setState({searchFilm: e.target.value})}
-                    placeholder='Search...'
-                    onKeyDown={this.handleKey}
-                />
-                <Button onClick={() => this.props.searchMovies(this.state.searchFilm, this.state.type)}
-                        animated="fade"
-                        size='large'>
-                    Search...
-                </Button>
-                <div className={style.check}>
-                    <Checkbox radio
-                              label='All'
-                              name='checkboxRadioGroup'
-                              value='all'
-                              checked={this.state.type === 'all'}
-                              onChange={this.handleFilter}/>
-                    <Checkbox radio
-                              label='Movies only'
-                              name='checkboxRadioGroup'
-                              value='movie'
-                              checked={this.state.type === 'movie'}
-                              onChange={this.handleFilter}/>
-                    <Checkbox radio
-                              label='Series only'
-                              name='checkboxRadioGroup'
-                              value='series'
-                              checked={this.state.type === 'series'}
-                              onChange={this.handleFilter}/>
-                </div>
-            </>
+    return (
+        <>
+            <Input
+                name='film'
+                onChange={(e) => setSearchFilm(e.target.value)}
+                placeholder='Search...'
+                onKeyDown={handleKey}
+            />
+            <Button onClick={() => props.searchMovies(searchFilm, type)}
+                    animated="fade"
+                    size='large'>
+                Search...
+            </Button>
+            <div className={style.check}>
+                <Checkbox radio
+                          label='All'
+                          name='checkboxRadioGroup'
+                          value='all'
+                          checked={type === 'all'}
+                          onChange={handleFilter}/>
+                <Checkbox radio
+                          label='Movies only'
+                          name='checkboxRadioGroup'
+                          value='movie'
+                          checked={type === 'movie'}
+                          onChange={handleFilter}/>
+                <Checkbox radio
+                          label='Series only'
+                          name='checkboxRadioGroup'
+                          value='series'
+                          checked={type === 'series'}
+                          onChange={handleFilter}/>
+            </div>
+        </>
 
-        )
-    }
+    )
 
 
 }
